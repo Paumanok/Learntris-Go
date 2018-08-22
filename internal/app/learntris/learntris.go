@@ -11,16 +11,19 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	board := matrix.Create_mat(22,10)
-	var active (*[][]rune) = &Empty_tetramino
 	score, cleared_lines := 0, 0 //init values
 	
+	var active ([][]rune) = Empty_tetramino
 
 	for scanner.Scan() {
 		
 		text := scanner.Text()
+		split_commands := strings.Split(text, " ")
+
 		//fmt.Println("text: " , text[0], " len: ", len(text))
-		if len(text) > 0 {
-			char := text[0]
+		//if len(text) > 0 {
+		for _, command := range(split_commands){
+			char := command[0] //need to make sure command is single letter
 			switch {
 			case char == 'q':
 				//quit
@@ -40,16 +43,41 @@ func main() {
 			case char == 's':
 				//run single step
 				single_step(&board, &cleared_lines, &score)
-
+			
+			//tetramino assignments
 			case char == 'I':
-				active = &I_tetramino
+				active = I_tetramino
 
 			case char == 'O':
-				active = &O_tetramino
+				active = O_tetramino
 
+			case char == 'Z':
+				active = Z_tetramino
+
+			case char == 'S':
+				active = S_tetramino
+
+			case char == 'J':
+				active = J_tetramino
+			
+			case char == 'L':
+				active = L_tetramino
+			
+			case char == 'T':
+				active = T_tetramino
+			
+			case char == '[':
+				active = Testrimino	
+			
 			case char == 't':
-				matrix.Print_mat(*active)
+				//set active tetramino
+				matrix.Print_mat(active)
+			
+			case char == ')':
+				rotate_active(&active)	
 
+			case char == ';':
+				fmt.Println("")
 			case char == '?':
 				//query 
 				switch {
@@ -117,6 +145,26 @@ func single_step(board (*[][]rune), n *int, s *int){
 			}
 		}
 	}
+}
+
+//rotate active tetramino clockwise
+func rotate_active(active *([][]rune)){
+	temp_tet := *active
+	N := len(temp_tet)
+	//matrix is y,x [rows][col]
+	for x := 0; x < N/2; x+=1 {
+		for y:=x; y < N-x-1; y+=1 {
+			x_off := N-1-x
+			y_off := N-1-y
+
+			temp := temp_tet[x][y]
+			temp_tet[x][y] = temp_tet[y_off][x] //bottom left
+			temp_tet[y_off][x] = temp_tet[x_off][y_off]
+			temp_tet[x_off][y_off] = temp_tet[y][x_off]
+			temp_tet[y][x_off] = temp
+			}	
+		}
+	*active = temp_tet
 }
 
 func clear_row(board *([][]rune), row int){
