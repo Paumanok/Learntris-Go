@@ -10,10 +10,13 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	board := matrix.Create_mat(22,10)
-	score, cleared_lines := 0, 0 //init values
+	//board := matrix.Create_mat(22,10)
+	//score, cleared_lines := 0, 0 //init values
 	
-	var active ([][]rune) = Empty_tetramino
+	var board Board = *init_board()
+
+
+	//var active ([][]rune) = Empty_tetramino
 
 	for scanner.Scan() {
 		
@@ -30,51 +33,51 @@ func main() {
 				os.Exit(3)
 			case char == 'p':
 				//print the state of the matrix
-				matrix.Print_mat(board)
+				matrix.Print_mat(board.board)
 			
 			case char == 'g':
 				//set board to given input
-				given(&board, scanner)
+				given(&board.board, scanner)
 
 			case char == 'c':
 				//clear matrix
-				clear(&board)
+				clear(&board.board)
 
 			case char == 's':
 				//run single step
-				single_step(&board, &cleared_lines, &score)
+				single_step(&board.board, &board.cleared_lines, &board.score)
 			
 			//tetramino assignments
 			case char == 'I':
-				active = I_tetramino
+				board.active = I_tetramino
 
 			case char == 'O':
-				active = O_tetramino
+				board.active = O_tetramino
 
 			case char == 'Z':
-				active = Z_tetramino
+				board.active = Z_tetramino
 
 			case char == 'S':
-				active = S_tetramino
+				board.active = S_tetramino
 
 			case char == 'J':
-				active = J_tetramino
+				board.active = J_tetramino
 			
 			case char == 'L':
-				active = L_tetramino
+				board.active = L_tetramino
 			
 			case char == 'T':
-				active = T_tetramino
+				board.active = T_tetramino
 			
 			case char == '[':
-				active = Testrimino	
+				board.active = Testrimino	
 			
 			case char == 't':
 				//set active tetramino
-				matrix.Print_mat(active)
+				matrix.Print_mat(board.active)
 			
 			case char == ')':
-				rotate_active(&active)	
+				rotate_active(&board.active)	
 
 			case char == ';':
 				fmt.Println("")
@@ -83,10 +86,10 @@ func main() {
 				switch {
 				//score
 				case text[1] == 's':
-					 fmt.Println(score)
+					 fmt.Println(board.score)
 				//cleared lines
 				case text[1] == 'n':
-					fmt.Println(cleared_lines)
+					fmt.Println(board.cleared_lines)
 				}
 
 
