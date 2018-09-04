@@ -20,13 +20,15 @@ func main() {
 	for scanner.Scan() {
 		
 		text := scanner.Text()
-		split_commands := strings.Split(text, " ")
-
+		skipNext := false
+		//split_commands := strings.Split(text, " ")
+		commands := strings.Replace(text, " ", "", -1)
 		//fmt.Println("text: " , text[0], " len: ", len(text))
 		//if len(text) > 0 {
-		for _, command := range(split_commands){
-			char := command[0] //need to make sure command is single letter
+		for i, char := range(commands){
 			switch {
+			case skipNext == true:
+				skipNext = false
 			case char == 'q':
 				//quit
 				os.Exit(3)
@@ -85,12 +87,14 @@ func main() {
 				fmt.Println("")
 			case char == '?':
 				//query 
+				skipNext = true
+				next_char := commands[i+1]
 				switch {
 				//score
-				case text[1] == 's':
+				case next_char == 's':
 					 fmt.Println(board.score)
 				//cleared lines
-				case text[1] == 'n':
+				case next_char == 'n':
 					fmt.Println(board.cleared_lines)
 				}
 

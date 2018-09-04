@@ -28,7 +28,7 @@ var I_tet Tetramino = Tetramino{
 					{'c','c','c','c'},
 					{'.','.','.','.'},
 					{'.','.','.','.'}},
-	spawn_col : 2}
+	spawn_col : 3}
 							
 var O_tet Tetramino = Tetramino{
 	tet : [][]rune {{'y','y'},
