@@ -43,7 +43,7 @@ func Print_active_board(board(Board)){
 			//fmt.Println(board.active.end_y >=i)
 			//fmt.Println()
 			if board.active.start_x <= j && j <= board.active.end_x && board.active.start_y <= i && i <= board.active.end_y {
-				line +=string(board.active.tet[a_i][a_j]) + " "
+				line +=string(board.active.tet[a_i][a_j]-0x20) + " "
 				a_j++
 			}else{
 
