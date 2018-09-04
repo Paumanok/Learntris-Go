@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"learntris/internal/pkg/matrix"
 )
 
 func main() {
@@ -33,8 +32,12 @@ func main() {
 				os.Exit(3)
 			case char == 'p':
 				//print the state of the matrix
-				matrix.Print_mat(board.board)
+				Print_board(board.board)
 			
+			case char == 'P':
+				//print state of the board with active placed
+				Place_active(&board)
+				Print_active_board(board)
 			case char == 'g':
 				//set board to given input
 				given(&board.board, scanner)
@@ -49,35 +52,34 @@ func main() {
 			
 			//tetramino assignments
 			case char == 'I':
-				board.active = I_tetramino
+				board.active = I_tet
 
 			case char == 'O':
-				board.active = O_tetramino
+				board.active = O_tet
 
 			case char == 'Z':
-				board.active = Z_tetramino
+				board.active = Z_tet
 
 			case char == 'S':
-				board.active = S_tetramino
+				board.active = S_tet
 
 			case char == 'J':
-				board.active = J_tetramino
+				board.active = J_tet
 			
 			case char == 'L':
-				board.active = L_tetramino
-			
+				board.active = L_tet			
 			case char == 'T':
-				board.active = T_tetramino
+				board.active = T_tet
 			
 			case char == '[':
-				board.active = Testrimino	
+				board.active = Testramino	
 			
 			case char == 't':
 				//set active tetramino
-				matrix.Print_mat(board.active)
+				Print_board(board.active.tet)
 			
 			case char == ')':
-				rotate_active(&board.active)	
+				rotate_active(&board.active.tet)	
 
 			case char == ';':
 				fmt.Println("")
