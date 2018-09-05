@@ -13,13 +13,6 @@ type Board struct {
 	active_col int
 }
 
-type Active_tet struct{
-	active [][]rune
-	top_row int
-	left_col int
-	bot_row int
-	right_col int
-}
 
 func Place_active(board(*Board)){
 	start_col := board.active.spawn_col
@@ -29,21 +22,50 @@ func Place_active(board(*Board)){
 	board.active.end_y = len(board.active.tet)-1
 }
 
+
+//shift active tetramino on board
+//needs bounds checking
+func shift_active(shift_by(int), board(*Board)){
+	new_start_x := board.active.start_x + shift_by
+	new_end_x := board.active.end_x + shift_by
+	//fmt.Println(board.active.start_x)
+	//fmt.Println(new_start_x)
+	//bounds checking:
+	//check if start or end is outside size of board
+	//if so, check if this only consists of '.'
+	//if not, carry on, if so, dont move
+	
+	if new_start_x < 0 || new_end_x > len(board.board[0]) {
+		for row := range board.active.tet {
+			if board.active.tet[row][Neg_offset(board.active.start_x)] != '.'  {
+				fmt.Println(board.active.start_x)
+				fmt.Println(new_start_x)
+				fmt.Println(Neg_offset(new_start_x))
+				fmt.Println("fail state")
+				//fail state
+				return
+			}else if board.active.tet[row][len(board.active.tet[0])-1] != '.' && new_end_x > len(board.board[0]){
+				//another fail state
+				fmt.Println("fail state")
+				return
+			}
+		}
+	}
+
+	board.active.start_x = new_start_x
+	board.active.end_x = new_end_x
+}
+
 func Print_active_board(board(Board)){
 	a_i := 0
-	a_j := 0
+	a_j := Neg_offset(board.active.start_x)
 	for i := range board.board { //for row
 		line := ""
 		for j := range board.board[i] { //for col
-			//fmt.Println(j)
-			//fmt.Println(board.active.end_x)
-			//fmt.Println(board.active.start_x <= j)
-			//fmt.Println(board.active.end_x >= j)
-			//fmt.Println(board.active.start_y <= i)
-			//fmt.Println(board.active.end_y >=i)
-			//fmt.Println()
+			
 			if board.active.start_x <= j && j <= board.active.end_x && board.active.start_y <= i && i <= board.active.end_y {
 				a_char := board.active.tet[a_i][a_j]
+				
 				if a_char != '.' { a_char = a_char - 0x20 }
 				line +=string(a_char) + " "
 				a_j++
@@ -53,7 +75,7 @@ func Print_active_board(board(Board)){
 			}
 			
 		}
-		a_j = 0
+		a_j = Neg_offset(board.active.start_x)
 		if board.active.start_y <= i && i <= board.active.end_y { a_i++}
 		fmt.Println(line)
 	}
@@ -92,3 +114,11 @@ func Print_board(board([][]rune)) {
 	}
 }
 
+//because golang aparently doesn't have an absolute value
+//function for non float64 types?
+func Neg_offset(val  int) int{
+	if val < 0 {
+		return ((-val)-1)
+	}
+	return 0
+}

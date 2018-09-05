@@ -11,7 +11,10 @@ type Tetramino struct {
 	end_x int
 	end_y int
 }
-		
+
+func shift_tet(shift_by(int), board(*Board)){
+
+}
 
 //define ur tetraminos 
 

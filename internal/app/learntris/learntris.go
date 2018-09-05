@@ -38,7 +38,6 @@ func main() {
 			
 			case char == 'P':
 				//print state of the board with active placed
-				Place_active(&board)
 				Print_active_board(board)
 			case char == 'g':
 				//set board to given input
@@ -55,23 +54,31 @@ func main() {
 			//tetramino assignments
 			case char == 'I':
 				board.active = I_tet
+				Place_active(&board)
 
 			case char == 'O':
 				board.active = O_tet
+				Place_active(&board)
 
 			case char == 'Z':
 				board.active = Z_tet
+				Place_active(&board)
 
 			case char == 'S':
 				board.active = S_tet
+				Place_active(&board)
 
 			case char == 'J':
 				board.active = J_tet
+				Place_active(&board)
 			
 			case char == 'L':
 				board.active = L_tet			
+				Place_active(&board)
+			
 			case char == 'T':
 				board.active = T_tet
+				Place_active(&board)
 			
 			case char == '[':
 				board.active = Testramino	
@@ -81,7 +88,13 @@ func main() {
 				Print_board(board.active.tet)
 			
 			case char == ')':
-				rotate_active(&board.active.tet)	
+				rotate_active(&board.active.tet)
+			
+			case char == '<':
+				shift_active(-1, &board)
+			
+			case char == '>':
+				shift_active(1, &board)
 
 			case char == ';':
 				fmt.Println("")
