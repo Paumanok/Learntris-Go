@@ -34,19 +34,15 @@ func shift_active(shift_by(int), board(*Board)){
 	//check if start or end is outside size of board
 	//if so, check if this only consists of '.'
 	//if not, carry on, if so, dont move
-	
-	if new_start_x < 0 || new_end_x > len(board.board[0]) {
+	if new_start_x < 0 || new_end_x > (len(board.board[0])-1) {
 		for row := range board.active.tet {
 			if board.active.tet[row][Neg_offset(board.active.start_x)] != '.'  {
-				fmt.Println(board.active.start_x)
-				fmt.Println(new_start_x)
-				fmt.Println(Neg_offset(new_start_x))
-				fmt.Println("fail state")
+				//fmt.Println("fail state")
 				//fail state
 				return
-			}else if board.active.tet[row][len(board.active.tet[0])-1] != '.' && new_end_x > len(board.board[0]){
+			}else if board.active.tet[row][Pos_offset(board)] != '.' {
 				//another fail state
-				fmt.Println("fail state")
+				//fmt.Println("fail state")
 				return
 			}
 		}
@@ -121,4 +117,12 @@ func Neg_offset(val  int) int{
 		return ((-val)-1)
 	}
 	return 0
+}
+
+func Pos_offset(board (*Board)) int{
+	if board.active.end_x >= 9{
+		//fmt.Println(val - (val - 9))
+		return (len(board.active.tet[0])-1) - (board.active.end_x - 9)
+	}
+	return len(board.active.tet[0])-1
 }
