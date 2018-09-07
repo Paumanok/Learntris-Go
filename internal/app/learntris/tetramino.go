@@ -12,10 +12,6 @@ type Tetramino struct {
 	end_y int
 }
 
-func shift_tet(shift_by(int), board(*Board)){
-
-}
-
 //define ur tetraminos 
 
 var Empty_tet Tetramino = Tetramino {
