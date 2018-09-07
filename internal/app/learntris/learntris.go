@@ -91,10 +91,10 @@ func main() {
 				rotate_active(&board.active.tet)
 			
 			case char == '<':
-				shift_active(-1, &board)
+				shift_active_hor(-1, &board)
 			
 			case char == '>':
-				shift_active(1, &board)
+				shift_active_hor(1, &board)
 
 			case char == ';':
 				fmt.Println("")

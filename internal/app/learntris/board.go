@@ -25,11 +25,9 @@ func Place_active(board(*Board)){
 
 //shift active tetramino on board
 //needs bounds checking
-func shift_active(shift_by(int), board(*Board)){
+func shift_active_hor(shift_by(int), board(*Board)){
 	new_start_x := board.active.start_x + shift_by
 	new_end_x := board.active.end_x + shift_by
-	//fmt.Println(board.active.start_x)
-	//fmt.Println(new_start_x)
 	//bounds checking:
 	//check if start or end is outside size of board
 	//if so, check if this only consists of '.'
@@ -37,11 +35,9 @@ func shift_active(shift_by(int), board(*Board)){
 	if new_start_x < 0 || new_end_x > (len(board.board[0])-1) {
 		for row := range board.active.tet {
 			if board.active.tet[row][Neg_offset(board.active.start_x)] != '.'  {
-				//fmt.Println("fail state")
 				//fail state
 				return
 			}else if board.active.tet[row][Pos_offset(board)] != '.' {
-				//another fail state
 				//fmt.Println("fail state")
 				return
 			}
@@ -50,6 +46,17 @@ func shift_active(shift_by(int), board(*Board)){
 
 	board.active.start_x = new_start_x
 	board.active.end_x = new_end_x
+}
+
+func shift_active_vert(shift_by(int), board(*Board)){
+	new_start_y := board.active.start_y + shift_by
+	new_end_y := board.active.end_y + shift_by
+	
+	if 0 {
+	//more checking needed here
+	}
+	board.active.start_y = new_start_y
+	board.active.end_y = new_end_y
 }
 
 func Print_active_board(board(Board)){
