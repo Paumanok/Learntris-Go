@@ -49,11 +49,35 @@ func shift_active_hor(shift_by(int), board(*Board)){
 }
 
 func shift_active_vert(shift_by(int), board(*Board)){
-	new_start_y := board.active.start_y + shift_by
-	new_end_y := board.active.end_y + shift_by
 	
-	if 0 {
+	new_start_y := board.active.start_y + Abs(shift_by)
+	new_end_y := board.active.end_y + Abs(shift_by)
+	
 	//more checking needed here
+		
+	if new_end_y > len(board.board) - 1 {
+		//currently doesn't buffer empty bois, fix later pls
+		//fail state
+		return
+	}
+
+	cur_tet_row := 0
+	for row := board.active.start_y; row <= board.active.end_y; row++ {//check all rows of board
+		
+		cur_tet_col := 0
+		for j := board.active.start_x; j <= board.active.end_x; j++ {//per col within valid row
+				//fmt.Println(row)
+				//fmt.Println(j)
+				//fmt.Println(cur_tet_row)
+				//fmt.Println(cur_tet_col)
+				//fmt.Println()
+			if board.active.tet[cur_tet_row][cur_tet_col] !=  '.' && board.board[row][j] != '.' {
+				//fail state
+				return
+			}
+			cur_tet_col++
+		}//end for j
+		cur_tet_row++ 
 	}
 	board.active.start_y = new_start_y
 	board.active.end_y = new_end_y
@@ -117,8 +141,14 @@ func Print_board(board([][]rune)) {
 	}
 }
 
-//because golang aparently doesn't have an absolute value
-//function for non float64 types?
+
+func Abs( val int) int{
+	if val < 0 {
+		return -val
+	}
+	return val
+}
+
 func Neg_offset(val  int) int{
 	if val < 0 {
 		return ((-val)-1)

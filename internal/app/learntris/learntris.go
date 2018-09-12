@@ -95,6 +95,9 @@ func main() {
 			
 			case char == '>':
 				shift_active_hor(1, &board)
+			
+			case char == 'v':
+				shift_active_vert(1, &board)
 
 			case char == ';':
 				fmt.Println("")
